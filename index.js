@@ -1,10 +1,10 @@
-const dataBaseAdapter = require('./dataBaseAdapter'); // Import your dataBaseAdapter module
+const dataBaseAdapter = require('./dataBaseAdapter.js'); // Import your dataBaseAdapter module
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const http = require('http');
 // Assuming isAuthenticated middleware is defined somewhere
-const isAuthenticated = require('./middlewares/authenticate');
+const isAuthenticated = require('./middlewares/authenticate.js');
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(bodyParser.json()); // Parse JSON bodies
 app.use(cors()); // Enable CORS
 
 // Routes
-const login = require('./routes/login');
+const login = require('./routes/login.js');
 app.use('/login', login);
 
 const apiRoutes = require('./routes/index.js');
