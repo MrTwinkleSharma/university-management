@@ -1,6 +1,5 @@
 const dataBaseAdapter = require('./dataBaseAdapter'); // Import your dataBaseAdapter module
 const express = require('express');
-const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const http = require('http');
@@ -14,7 +13,6 @@ const db = dataBaseAdapter.get();
 global.db = db;
 
 // Middleware
-app.use(morgan('dev')); // Logging middleware
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(cors()); // Enable CORS
 
