@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = 'your-secret-key'; // Replace with your JWT secret key
+const { JWT_SECRET } = require('../utils/common.js');
 
 const isAuthenticated = (req, res, next) => {
     // Get token from request headers
@@ -19,8 +19,8 @@ const isAuthenticated = (req, res, next) => {
             return res.status(401).json({ error: 'Unauthorized: Invalid token' });
         }
 
-        // Add decoded email and id to request object
-        req.email = decoded.email;
+        // Add decoded emailID and id to request object
+        req.emailID = decoded.emailID;
 
         // Call next middleware
         next();

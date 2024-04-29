@@ -17,8 +17,8 @@ app.use(bodyParser.json()); // Parse JSON bodies
 app.use(cors()); // Enable CORS
 
 // Routes
-const login = require('./routes/login.js');
-app.use('/login', login);
+const auth = require('./routes/authenticate.js');
+app.use('/authenticate', auth);
 
 const apiRoutes = require('./routes/index.js');
 // Protected routes, requires authentication

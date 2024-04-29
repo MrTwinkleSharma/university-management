@@ -42,7 +42,7 @@ router.post('/students', async (req, res) => {
             feesCollected
         }
         if (studentID) {
-            console.log(dbObject)
+            console.log("Going to Update %s: %j", studentID, dbObject)
             // Execute SQL INSERT query to update student data into the database
             global.db.query('UPDATE students SET ? WHERE studentID = ?',
                 [dbObject, studentID], (err, updated) => {
