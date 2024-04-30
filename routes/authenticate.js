@@ -38,6 +38,7 @@ const verifyUser = (emailID) => {
         });
     });
 };
+ 
 
 // Example authentication function
 const createUser = ({ firstName, lastName, emailID, mobileNumber, password }) => {
@@ -88,10 +89,10 @@ router.post('/login', async (req, res) => {
             const token = jwt.sign({ emailID }, JWT_SECRET);
 
             // Send success response with token
-            return res.status(200).json({ message: 'authenticate successful', token });
+            return res.status(200).json({ success:true, message: 'Login successful', token });
         } else {
             // If authentication fails, return an error response
-            return res.status(401).json({ error: 'Invalid emailID or password' });
+            return res.status(200).json({ success:false, message: 'Invalid Email or Password' });
         }
     } catch (error) {
         // If an error occurs during authentication, return an error response
@@ -134,10 +135,15 @@ router.post('/signup', async (req, res) => {
         return res.status(400).json({ error: 'Email, password, Mobile Number, First Name and Last Name are required' });
     }
     try {
+        const emailExists = await verifyUser(emailID);
+        if(emailExists) {
+            // Send success response with token
+            return res.status(200).json({ success:false, message: 'Email Exists Already' });
+        }
         const createUserResponse = await createUser({ firstName, lastName, mobileNumber, emailID, password });
         if (createUserResponse) {
             // Send success response with token
-            return res.status(200).json({ message: 'User Created successfully' });
+            return res.status(200).json({ success:false, message: 'User Created Successfully' });
         }
     } catch (error) {
         // If an error occurs during authentication, return an error response
