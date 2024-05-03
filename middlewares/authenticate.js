@@ -11,7 +11,7 @@ const isAuthenticated = (req, res, next) => {
     }
 
     token = token.split(" ")[1]
-    console.log("token %j", token);
+    console.log("token %s", token);
 
     // Verify and decode token
     jwt.verify(token, JWT_SECRET, (err, decoded) => {

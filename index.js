@@ -8,6 +8,32 @@ const isAuthenticated = require('./middlewares/authenticate.js');
 
 const app = express();
 
+const fs = require('fs');
+const path = require('path');
+
+// Define the file path for logs
+const logFilePath = path.join(__dirname, 'logs.txt');
+
+// Create a writable stream to the log file
+const logStream = fs.createWriteStream(logFilePath, { flags: 'a' }); // 'a' stands for append mode
+
+// Redirect console.log to write to the log file
+const originalLog = console.log;
+console.log = function(data) {
+    originalLog.apply(console, arguments); // To keep the original console behavior
+    logStream.write(`${new Date().toISOString()} - ${data}\n`);
+};
+
+// Now, when you use console.log, it will also write to the log file
+
+// Example usage:
+console.log('This will be logged in the terminal and in the file.');
+
+// Don't forget to close the stream when your application exits
+process.on('exit', () => {
+    logStream.end(); // Close the stream
+});
+
 // Connect to the database
 const db = dataBaseAdapter.get();
 global.db = db;
