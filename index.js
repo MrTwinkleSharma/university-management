@@ -13,7 +13,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Define the file path for logs
-const logFilePath = '/var/tmp/logs.txt';
+const logFilePath = path.join(__dirname, 'logs.txt');
 
 // Create a writable stream to the log file
 const logStream = fs.createWriteStream(logFilePath, { flags: 'a' }); // 'a' stands for append mode
