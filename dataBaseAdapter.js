@@ -24,7 +24,9 @@ DataBase.init = function (config) {
     user: process.env.DB_USER,
     database: process.env.DB_NAME,
     charset: 'utf8mb4',
+    timezone: '+05:30', // Indian Standard Time (IST) UTC+5:30
     connectTimeout: 30000,
+    dateStrings: true // Treat date fields as strings
   });
 }
 
