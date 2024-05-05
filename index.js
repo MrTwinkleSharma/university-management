@@ -60,6 +60,6 @@ app.use((err, req, res, next) => {
 });
 
 
-var server = http.createServer(app).listen(5000);
+var server = http.createServer(app).listen(process.env.PORT || 5000);
 
 module.exports = app;
