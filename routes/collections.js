@@ -30,7 +30,6 @@ router.post('/', async (req, res) => {
         // Extract collections data from the request body
         const { collectionID, studentID, amount, timestamp, comment } = req.body;
         const dbObject = {
-            collectionID,
             studentID, 
             amount, 
             timestamp, 
@@ -56,6 +55,7 @@ router.post('/', async (req, res) => {
             global.db.query('INSERT INTO collections SET ?',
                 [dbObject], (err, added) => {
                     if (err) {
+                        console.log(err);
                         return res.status(500).json({ error: 'Internal server error' });
                     }
                     else {
