@@ -1,3 +1,4 @@
+require('dotenv').config();
 const dataBaseAdapter = require('./dataBaseAdapter.js'); // Import your dataBaseAdapter module
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -12,7 +13,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Define the file path for logs
-const logFilePath = path.join(__dirname, 'logs.txt');
+const logFilePath = '/var/tmp/logs.txt';
 
 // Create a writable stream to the log file
 const logStream = fs.createWriteStream(logFilePath, { flags: 'a' }); // 'a' stands for append mode
@@ -21,13 +22,12 @@ const logStream = fs.createWriteStream(logFilePath, { flags: 'a' }); // 'a' stan
 const originalLog = console.log;
 console.log = function(data) {
     originalLog.apply(console, arguments); // To keep the original console behavior
-    logStream.write(`${new Date().toISOString()} - ${data}\n`);
+    logStream.write(`${new Date().toString()} - ${data}\n`);
 };
 
 // Now, when you use console.log, it will also write to the log file
 
 // Example usage:
-console.log('This will be logged in the terminal and in the file.');
 
 // Don't forget to close the stream when your application exits
 process.on('exit', () => {

@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-// Secret key for JWT token signing (replace with your own secret)
-const { JWT_SECRET } = require('../utils/common.js');
 
 
 // Example authentication function
 const authenticateUser = (emailID, password) => {
     return new Promise((resolve, reject) => {
-        global.db.query("SELECT * FROM admin WHERE emailID = ? AND password = ?", [emailID, password], (err, result) => {
+        global.db.query("SELECT * FROM admins WHERE emailID = ? AND password = ?", [emailID, password], (err, result) => {
             if (err) {
                 console.error("Error occurred:", err);
                 reject(err);
@@ -25,7 +23,7 @@ const authenticateUser = (emailID, password) => {
 // Example authentication function
 const verifyUser = (emailID) => {
     return new Promise((resolve, reject) => {
-        global.db.query("SELECT * FROM admin WHERE emailID = ?", [emailID], (err, result) => {
+        global.db.query("SELECT * FROM admins WHERE emailID = ?", [emailID], (err, result) => {
             if (err) {
                 console.error("Error occurred:", err);
                 return reject(err);
@@ -50,7 +48,7 @@ const createUser = ({ firstName, lastName, emailID, mobileNumber, password }) =>
             mobileNumber,
             password
         }
-        global.db.query("INSERT INTO admin SET ?", [dbObject], (err, result) => {
+        global.db.query("INSERT INTO admins SET ?", [dbObject], (err, result) => {
             if (err) {
                 console.error("Error occurred:", err);
                 return reject(err);
@@ -62,7 +60,7 @@ const createUser = ({ firstName, lastName, emailID, mobileNumber, password }) =>
 
 const resetPassword = (emailID, password) => {
     return new Promise((resolve, reject) => {
-        global.db.query("UPDATE admin SET password = ? WHERE emailID = ?", [password, emailID], (err, result) => {
+        global.db.query("UPDATE admins SET password = ? WHERE emailID = ?", [password, emailID], (err, result) => {
             if (err) {
                 console.error("Error occurred:", err);
                 return reject(err);
@@ -86,7 +84,7 @@ router.post('/login', async (req, res) => {
 
         if (isAuthenticated) {
             // If authentication succeeds, generate JWT token
-            const token = jwt.sign({ emailID }, JWT_SECRET);
+            const token = jwt.sign({ emailID }, process.env.JWT_SECRET);
 
             // Send success response with token
             return res.status(200).json({ success:true, message: 'Login successful', token });

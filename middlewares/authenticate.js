@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-const { JWT_SECRET } = require('../utils/common.js');
-
 const isAuthenticated = (req, res, next) => {
     // Get token from request headers
     let token = req.headers.authorization;
@@ -14,7 +12,7 @@ const isAuthenticated = (req, res, next) => {
     console.log("token %s", token);
 
     // Verify and decode token
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).json({ error: 'Unauthorized: Invalid token' });
         }
