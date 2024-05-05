@@ -5,8 +5,7 @@ const path = require('path');
 var DataBase = function () {
 };
 
-const caCertPath = path.join(__dirname, './ca.pem'); // Constructing the path to your CA certificate file
-console.log(caCertPath);
+
 DataBase.get = function () {
   if (typeof DataBase.connection === 'undefined') {
     DataBase.init(global.config);
